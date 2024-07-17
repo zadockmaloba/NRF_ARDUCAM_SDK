@@ -22,3 +22,4 @@ Output/
 *.o
 *.hex
 *.jlink
+*.emSession
