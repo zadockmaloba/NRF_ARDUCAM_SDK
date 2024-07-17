@@ -22,5 +22,3 @@
 #define arducamDelayUs(val)               nrf_delay_us(val) // Delay Us
 
 #endif /*__ARDUINOHAL_H*/
-
-#endif /* DE716617_F52C_40FC_BF39_32819E00751D */

@@ -28,4 +28,5 @@
 #include "esp32Hal.h"
 #else
 #include "NRF52840Hal.h"
+#endif
 #endif /*__PLATFORM_H*/
