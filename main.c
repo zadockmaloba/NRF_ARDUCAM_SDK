@@ -5,7 +5,9 @@
 
 #include "debug.h"
 
-#define IMG_BUFF_SIZE 4000
+#define TMP_IMG_BUFF_SIZE 256
+#define IMG_BUFF_SIZE 14000
+uint8_t temp_img[TMP_IMG_BUFF_SIZE] = {0};
 uint8_t img_buffer[IMG_BUFF_SIZE] = {0};
 
 ArducamCamera camera;
@@ -20,21 +22,26 @@ void main(void) {
 
     reset(&camera);
 
-    setColorEffect(&camera, CAM_COLOR_FX_BW);
+    //setColorEffect(&camera, CAM_COLOR_FX_BW);
 
-    takePicture(&camera, CAM_IMAGE_MODE_96X96, CAM_IMAGE_PIX_FMT_JPG);
+    takePicture(&camera, CAM_IMAGE_MODE_320X320, CAM_IMAGE_PIX_FMT_JPG);
 
     int bytes_read = 0;
 
     while(camera.receivedLength > 0) {
-        bytes_read = readBuff(&camera, img_buffer, IMG_BUFF_SIZE);
+        bytes_read += readBuff(&camera, img_buffer, IMG_BUFF_SIZE);
 
-        print(LL_INFO, "*********  Img Data... \n");
-        for (int i=0; i < IMG_BUFF_SIZE; ++i) {
-            print(LL_DEBUG, "%#02x \n", img_buffer[i]);
-        }
-        print(LL_INFO, "\n");
+        /*
+        for(int i=0; i<TMP_IMG_BUFF_SIZE; ++i) {
+            img_buffer[bytes_read] = temp_img[i];
+        }*/
     }
+
+    print(LL_INFO, "*********  Img Data... \n");
+    for (int i=0; i < IMG_BUFF_SIZE; ++i) {
+        print(LL_DEBUG, "%#02x \n", img_buffer[i]);
+    }
+    print(LL_INFO, "\n");
 
     reset(&camera);
 
