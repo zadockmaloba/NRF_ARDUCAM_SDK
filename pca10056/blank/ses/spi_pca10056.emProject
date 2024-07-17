@@ -1,5 +1,5 @@
 <!DOCTYPE CrossStudio_Project_File>
-<solution Name="spi_pca10056" target="8" version="2">
+<solution Name="NRF_ARDUCAM_SDK" target="8" version="2">
   <configuration
     Name="Debug"
     c_preprocessor_definitions="DEBUG; DEBUG_NRF"
@@ -9,7 +9,7 @@
     c_preprocessor_definitions="NDEBUG"
     gcc_optimization_level="Optimize For Size"
     link_time_optimization="No" />
-  <project Name="spi_pca10056">
+  <project Name="NRF_ARDUCAM_SDK">
     <configuration
       Name="Common"
       arm_architecture="v7EM"
