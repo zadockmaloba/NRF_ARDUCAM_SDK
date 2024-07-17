@@ -26,5 +26,6 @@
 #include "raspberryHal.h"
 #elif defined(ESP_PLATFORM)
 #include "esp32Hal.h"
-#endif
+#else
+#include "NRF52840Hal.h"
 #endif /*__PLATFORM_H*/
