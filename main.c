@@ -14,15 +14,20 @@ ArducamCamera camera;
 
 void main(void) {
     SEGGER_RTT_Init();
-    arducamSpiBegin();
+    //arducamSpiBegin();
 
+    //Initialize camera instance and start SPI
     camera = createArducamCamera(SPIM_SS_PIN);
-
     begin(&camera);
 
+    //Reset previous camera settings
     reset(&camera);
 
-    //setColorEffect(&camera, CAM_COLOR_FX_BW);
+    //Enable autfocus
+    setAutoFocus(&camera, 1);
+
+    //Disable color effects
+    setColorEffect(&camera, CAM_COLOR_FX_NONE);
 
     takePicture(&camera, CAM_IMAGE_MODE_320X320, CAM_IMAGE_PIX_FMT_JPG);
 
