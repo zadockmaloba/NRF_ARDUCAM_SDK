@@ -1,0 +1,55 @@
+{
+    "configurations": [
+        {
+            "name": "Segger-VSCode",
+            "includePath": [
+                    "@CMAKE_BINARY_DIR@",
+                    "@CMAKE_CURRENT_SOURCE_DIR@/include",
+                    "@CMAKE_CURRENT_SOURCE_DIR@/src",
+                    "@CMAKE_CURRENT_SOURCE_DIR@",
+                    "@SEGGER_ROOT_DIR@/include",
+                    "",
+                    @VSCODE_BROWSE_PATHS@
+            ],
+            "browse": {
+                "databaseFilename": "${workspaceFolder}/.vscode/browse.vc.db",
+                "limitSymbolsToIncludedHeaders": true,
+                "path": [
+                    "@CMAKE_BINARY_DIR@",
+                    "@CMAKE_CURRENT_SOURCE_DIR@/include",
+                    "@CMAKE_CURRENT_SOURCE_DIR@/src",
+                    "@CMAKE_CURRENT_SOURCE_DIR@",
+                    "@SEGGER_ROOT_DIR@/include",
+                    "",
+                    @VSCODE_BROWSE_PATHS@
+                ]
+            },
+            "defines": [
+                "USE_LFXO",
+                "APP_TIMER_V2",
+                "APP_TIMER_V2_RTC1_ENABLED",
+                "BOARD_PCA10056",
+                "CONFIG_GPIO_AS_PINRESET",
+                "FLOAT_ABI_HARD",
+                "NRF52840_XXAA",
+                "NRF_SD_BLE_API_VERSION=7",
+                "S140",
+                "SOFTDEVICE_PRESENT",
+                "uint8_t=unsigned char",
+                "uint32_t=unsigned int",
+                "uint64_t=unsigned long long"
+            ],
+            "cStandard": "c99",
+            "cppStandard": "gnu++11",
+            "compilerPath": "@SEGGER_ROOT_DIR@/bin/cc",
+            "compilerArgs": [
+                "-mthumb",
+                "-mcpu=cortex-m4",
+                "-mfloat-abi=hard -mfpu=fpv4-sp-d16",
+                "-mfpu=fpv4-sp-d16",
+                "-fno-builtin -fshort-enums"
+            ]
+        }
+    ],
+    "version": 4
+}

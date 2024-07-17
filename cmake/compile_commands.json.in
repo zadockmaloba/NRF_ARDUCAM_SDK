@@ -1,0 +1,7 @@
+[
+    { 
+        "directory": "@CMAKE_BINARY_DIR@",
+        "arguments": ["@SEGGER_ROOT_DIR@/bin/emBuild", "-verbose", "@OUTPUT_PROJECT_FILE@"],
+        "file": "file.cc" 
+    }
+]
