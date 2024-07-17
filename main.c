@@ -11,6 +11,7 @@ uint8_t img_buffer[IMG_BUFF_SIZE] = {0};
 ArducamCamera camera;
 
 void main(void) {
+    SEGGER_RTT_Init();
     arducamSpiBegin();
 
     camera = createArducamCamera(SPIM_SS_PIN);
@@ -30,7 +31,7 @@ void main(void) {
 
         print(LL_INFO, "*********  Img Data... \n");
         for (int i=0; i < IMG_BUFF_SIZE; ++i) {
-            print(LL_DEBUG, "%x \n", img_buffer[i]);
+            print(LL_DEBUG, "%#02x \n", img_buffer[i]);
         }
         print(LL_INFO, "\n");
     }
