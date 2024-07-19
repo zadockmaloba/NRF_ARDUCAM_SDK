@@ -80,7 +80,7 @@
 
 #define CAM_I2C_READ_MODE                          (1 << 0)
 #define CAM_REG_SENSOR_STATE_IDLE                  (1 << 1)
-#define CAM_SENSOR_RESET_ENABLE                    (1 << 6)
+#define CAM_SENSOR_RESET_ENABLE                    (1 << 7) | (1 << 6) //ZM - Reset both SDRAM and FPGA
 #define CAM_FORMAT_BASICS                          (0 << 0)
 #define CAM_SET_CAPTURE_MODE                       (0 << 7)
 #define CAM_SET_VIDEO_MODE                         (1 << 7)
