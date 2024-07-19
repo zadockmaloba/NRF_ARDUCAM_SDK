@@ -1,6 +1,6 @@
 #include "test.h"
 
-void test_cam_params(CAM_IMAGE_MODE mode, CAM_IMAGE_PIX_FMT fmt, CAM_WHITE_BALANCE wb, CAM_COLOR_FX fx, CAM_SHARPNESS_LEVEL sh) {
+void test_cam_params(ArducamCamera *camera, CAM_IMAGE_MODE mode, CAM_IMAGE_PIX_FMT fmt, CAM_WHITE_BALANCE wb, CAM_COLOR_FX fx, CAM_SHARPNESS_LEVEL sh) {
     print(LL_PRINT, "********** CAMERA SETTINGS **********\n");
     print(LL_PRINT, "Mode: %d Fmt: %d WB: %d FX: %d SH: %d\n", mode, fmt, wb, fx, sh);
     
@@ -40,15 +40,15 @@ void test_cam_params(CAM_IMAGE_MODE mode, CAM_IMAGE_PIX_FMT fmt, CAM_WHITE_BALAN
     print(LL_PRINT, "----------------------------------------------\n");
 }
 
-void test_all_camera_settings() {
+void test_all_camera_settings(ArducamCamera* camera) {
     print(LL_PRINT, "********** ALL CAMERA SETTINGS **********\n");
 
     for(int i=0; i< CAM_IMAGE_MODE_NONE; ++i)
     for(int j=0; j< CAM_IMAGE_PIX_FMT_NONE; ++j)
-    for(int k=0; k< CAM_WHITE_BALANCE_MODE_DEFAULT; ++k)
-    for(int l=0; l< CAM_COLOR_FX_NONE; ++l)
-    for(int m=0; m< CAM_SHARPNESS_LEVEL_AUTO; ++m) {
-        test_all_camera_settings(i, j, k, l, m);
+    for(int k=0; k< CAM_WHITE_BALANCE_MODE_HOME; ++k)
+    for(int l=0; l< CAM_COLOR_FX_SOLARIZE; ++l)
+    for(int m=0; m< CAM_SHARPNESS_LEVEL_8; ++m) {
+        test_cam_params(camera, i, j, k, l, m);
     }
 }
 
