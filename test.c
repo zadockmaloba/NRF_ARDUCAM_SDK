@@ -22,7 +22,7 @@ void test_hd_jpeg_no_fx_sunny(ArducamCamera* camera) {
 
     takePicture(camera, CAM_IMAGE_MODE_HD, CAM_IMAGE_PIX_FMT_JPG);
 
-    uint16_t bytes_read = 0;
+    uint32_t bytes_read = 0;
 
     do {
         bytes_read += readBuff(camera, img_buffer, IMG_BUFF_SIZE);
@@ -66,7 +66,7 @@ void test_hd_jpeg_no_fx_cloudy(ArducamCamera* camera) {
         bytes_read += readBuff(camera, img_buffer, IMG_BUFF_SIZE);
     } while(camera->receivedLength > 0);
 
-    print(LL_PRINT, "*********  Img Size: %i \n", bytes_read);
+    print(LL_PRINT, "*********  Img Size: %d \n", bytes_read);
 
     print(LL_PRINT, "*********  Img Data... \n");
     for (int i=0; i < IMG_BUFF_SIZE; ++i) {
@@ -104,7 +104,7 @@ void test_hd_jpeg_no_fx_office(ArducamCamera* camera) {
         bytes_read += readBuff(camera, img_buffer, IMG_BUFF_SIZE);
     } while(camera->receivedLength > 0);
 
-    print(LL_PRINT, "*********  Img Size: %i \n", bytes_read);
+    print(LL_PRINT, "*********  Img Size: %d \n", bytes_read);
 
     print(LL_PRINT, "*********  Img Data... \n");
     for (int i=0; i < IMG_BUFF_SIZE; ++i) {
