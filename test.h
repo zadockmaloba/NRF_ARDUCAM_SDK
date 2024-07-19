@@ -2,6 +2,7 @@
 #define A8E1C6B4_EF81_43A1_873F_168AC9E554EE
 
 #include <nrf.h>
+#include <string.h>
 
 #include "ArducamCamera.h"
 #include "ArducamSpi.h"
