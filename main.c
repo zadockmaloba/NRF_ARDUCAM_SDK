@@ -51,7 +51,7 @@ void main(void) {
 
     print(LL_INFO, "*********  Img Data... \n");
     for (int i=0; i < IMG_BUFF_SIZE; ++i) {
-        print(LL_DEBUG, "%#02x \n", img_buffer[i]);
+        SEGGER_RTT_printf(0, "%#02x ", img_buffer[i]);
     }
     print(LL_INFO, "\n");
 
