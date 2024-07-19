@@ -50,6 +50,7 @@
       <file file_name="../../../src/ArducamSpi.c" />
       <file file_name="../../../main.c" />
       <file file_name="../config/sdk_config.h" />
+      <file file_name="../../../test.c" />
     </folder>
     <folder Name="Board Definition">
       <file file_name="../../../../../../components/boards/boards.c" />
