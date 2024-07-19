@@ -24,18 +24,23 @@ void test_cam_params(ArducamCamera *camera, CAM_IMAGE_MODE mode, CAM_IMAGE_PIX_F
     takePicture(camera, mode, fmt);
 
     uint32_t bytes_read = 0;
-
+#if PRINT_IMG_DATA
     do {
         bytes_read += readBuff(camera, img_buffer, IMG_BUFF_SIZE);
     } while(camera->receivedLength > 0);
+#else
+    bytes_read = camera->receivedLength;
+#endif
 
     print(LL_PRINT, "*********  Img Size: %d \n", bytes_read);
 
+#if PRINT_IMG_DATA
     print(LL_PRINT, "*********  Img Data... \n");
     for (int i=0; i < IMG_BUFF_SIZE; ++i) {
         SEGGER_RTT_printf(0, "%#02x ", img_buffer[i]);
     }
     print(LL_PRINT, "\n");
+#endif //PRINT_IMG_DATA
 
     print(LL_PRINT, "----------------------------------------------\n");
 }
@@ -47,8 +52,9 @@ void test_all_camera_settings(ArducamCamera* camera) {
     for(int j=0; j< CAM_IMAGE_PIX_FMT_NONE; ++j)
     for(int k=0; k< CAM_WHITE_BALANCE_MODE_HOME; ++k)
     for(int l=0; l< CAM_COLOR_FX_SOLARIZE; ++l)
-    for(int m=0; m< CAM_SHARPNESS_LEVEL_8; ++m) {
-        test_cam_params(camera, i, j, k, l, m);
+    //for(int m=0; m< CAM_SHARPNESS_LEVEL_8; ++m) 
+    {
+        test_cam_params(camera, i, j, k, l, 6);
     }
 }
 
