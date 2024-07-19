@@ -4,11 +4,7 @@
 #include "ArducamSpi.h"
 
 #include "debug.h"
-
-#define TMP_IMG_BUFF_SIZE 256
-#define IMG_BUFF_SIZE 80000
-uint8_t temp_img[TMP_IMG_BUFF_SIZE] = {0};
-uint8_t img_buffer[IMG_BUFF_SIZE] = {0};
+#include "test.h"
 
 ArducamCamera camera;
 
