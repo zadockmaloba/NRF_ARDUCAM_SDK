@@ -26,10 +26,17 @@ void main(void) {
     //Enable autfocus
     setAutoFocus(&camera, 1);
 
+    setAutoWhiteBalance(&camera, 1);
+
+    setAutoWhiteBalanceMode(&camera, CAM_WHITE_BALANCE_MODE_CLOUDY);
+
     //Disable color effects
     setColorEffect(&camera, CAM_COLOR_FX_NONE);
 
-    takePicture(&camera, CAM_IMAGE_MODE_320X320, CAM_IMAGE_PIX_FMT_JPG);
+    //Set image quality
+    setImageQuality(&camera, LOW_QUALITY);
+
+    takePicture(&camera, CAM_IMAGE_MODE_HD, CAM_IMAGE_PIX_FMT_JPG);
 
     int bytes_read = 0;
 
