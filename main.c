@@ -63,6 +63,15 @@ void main(void) {
                 test_all_camera_settings(&camera);
                 break;
             case 'm': {
+                int key = 0;
+                uint8_t 
+                    mode = 0,
+                    format = 0,
+                    whitebalance = 0,
+                    fx = 0,
+                    sharpness = 0
+                    ;
+                
                 print(LL_PRINT, "Manually setting image params...\n");
                 print(LL_PRINT, "Choose Image mode: \n");
                 print(LL_PRINT, "*******************\n");
@@ -79,14 +88,7 @@ void main(void) {
                 print(LL_PRINT,"||    Press 'a' for 96x96 \n");
                 print(LL_PRINT,"||    Press 'b' for 128x128 \n");
                 print(LL_PRINT,"||    Press 'c' for 320x320 \n");
-                int key = 0;
-                uint8_t 
-                    mode = 0,
-                    format = 0,
-                    whitebalance = 0,
-                    fx = 0,
-                    sharpness = 0;
-                    ;
+                
                 while(!key){ key = SEGGER_RTT_GetKey();}
 
                 switch (key) {
@@ -182,6 +184,7 @@ void main(void) {
                 break;
             default:
                 print(LL_ERROR, "Unkown option: %c\n", input);
+                print_help_info();
                 break;
         }
     }
