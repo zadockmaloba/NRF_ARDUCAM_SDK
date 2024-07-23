@@ -23,7 +23,7 @@ enum STATE
 #ifdef DEBUG_ENABLED
   #define	print(level,msg,...) \
     SEGGER_RTT_printf(0,msg,##__VA_ARGS__); \
-    nrf_delay_us(20);
+    nrf_delay_ms(10);
 
 #else
   #define print(level,msg,...)	
