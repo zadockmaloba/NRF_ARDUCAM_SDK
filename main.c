@@ -131,7 +131,7 @@ void main(void) {
                 SEGGER_RTT_printf(0, "Selected image pixel format: %d\n", format);
                 print(LL_PRINT, "\n");
 
-                print(LL_PRINT, "Chose white balance mode: \n");
+                print(LL_PRINT, "Choose white balance mode: \n");
                 print(LL_PRINT, "******************************\n");
                 print(LL_PRINT,"||   Press '0' for Auto\n");
                 print(LL_PRINT,"||   Press '1' for Sunny\n");
@@ -239,7 +239,7 @@ void main(void) {
                     sharpness
                 );
                 print(LL_PRINT, "###############################\n");
-                print(LL_PRINT, "Image saved to addresss %x#02x", img_buffer);
+                print(LL_PRINT, "Image saved to addresss %#08x\n", img_buffer);
 
                 break;
             }
