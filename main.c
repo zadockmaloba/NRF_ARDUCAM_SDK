@@ -54,7 +54,7 @@ void main(void) {
     begin(&camera);
 
     while (1) {
-        int input = SEGGER_RTT_GetKey();
+        int input = SEGGER_RTT_WaitKey();
         if(input < 1) continue;
         switch (input) {
             case 'a':
@@ -69,7 +69,8 @@ void main(void) {
                     format = 0,
                     whitebalance = 0,
                     fx = 0,
-                    sharpness = 0
+                    sharpness = 0,
+                    quality = 0,
                     ;
                 
                 print(LL_PRINT, "Manually setting image params...\n");
@@ -172,8 +173,26 @@ void main(void) {
                     case '5': fx = CAM_COLOR_FX_NEGATIVE; break;
                     case '6': fx = CAM_COLOR_FX_GRASS_GREEN; break;
                     case '7': fx = CAM_COLOR_FX_OVER_EXPOSURE; break;
+                    default: fx = CAM_COLOR_FX_NONE; break;
                 }key = 0;
-                print(LL_PRINT, "Selected colore effect: %d\n", fx);
+                print(LL_PRINT, "Selected colour effect: %d\n", fx);
+                print(LL_PRINT, "\n");
+
+                print(LL_PRINT, "Choose JPEG Compression level: \n");
+                print(LL_PRINT, "*******************************\n");
+                print(LL_PRINT, "||   Press '0' for low compression (High Quality)\n");
+                print(LL_PRINT, "||   Press '1' for defualt compression\n");
+                print(LL_PRINT, "||   Press '2' for high compression (Low Quality)\n");
+
+                key = SEGGER_RTT_WaitKey();
+
+                switch(key) {
+                    case '0': quality = HIGH_QUALITY; break;
+                    case '1': quality = DEFAULT_QUALITY; break;
+                    case '2': quality = LOW_QUALITY; break;
+                    default: quality = DEFAULT_QUALITY; break;
+                } key = 0;
+                print(LL_PRINT, "Selected compression level: %d\n", quality);
                 print(LL_PRINT, "\n");
 
                 break;
