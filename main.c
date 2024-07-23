@@ -89,7 +89,7 @@ void main(void) {
                 print(LL_PRINT,"||    Press 'b' for 128x128 \n");
                 print(LL_PRINT,"||    Press 'c' for 320x320 \n");
                 
-                while(!key){ key = SEGGER_RTT_GetKey();}
+                key = SEGGER_RTT_WaitKey();
 
                 switch (key) {
                     case '0': mode = CAM_IMAGE_MODE_QQVGA; break;
@@ -117,7 +117,7 @@ void main(void) {
                 print(LL_PRINT,"||    Press '2' for RGB565 format \n");
                 print(LL_PRINT,"||    Press '3' for YUV format    \n");
 
-                while(!key){ key = SEGGER_RTT_GetKey();}
+                key = SEGGER_RTT_WaitKey();
 
                 switch (format) {
                     case '1': format = CAM_IMAGE_PIX_FMT_JPG; break;
@@ -128,7 +128,7 @@ void main(void) {
                 SEGGER_RTT_printf(0, "Selected image pixel format: %d\n", format);
                 print(LL_PRINT, "\n");
 
-                print(LL_PRINT, "Chhose white balance mode: \n");
+                print(LL_PRINT, "Chose white balance mode: \n");
                 print(LL_PRINT, "******************************\n");
                 print(LL_PRINT,"||   Press '0' for Auto\n");
                 print(LL_PRINT,"||   Press '1' for Sunny\n");
@@ -136,7 +136,7 @@ void main(void) {
                 print(LL_PRINT,"||   Press '3' for Cloudy\n");
                 print(LL_PRINT,"||   Press '4' for Home\n");
 
-                while(!key){ key = SEGGER_RTT_GetKey();}
+                key = SEGGER_RTT_WaitKey();
 
                 switch(key) {
                     case '0': whitebalance = CAM_WHITE_BALANCE_MODE_DEFAULT; break;
@@ -161,7 +161,7 @@ void main(void) {
                 print(LL_PRINT, "||   Press '7' for Over exposure\n");
                 print(LL_PRINT, "||   Press '8' for Solarize\n");
                 
-                while(!key){ key = SEGGER_RTT_GetKey();}
+                key = SEGGER_RTT_WaitKey();
 
                 switch(key) {
                     case '0': fx = CAM_COLOR_FX_NONE; break;
