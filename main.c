@@ -8,6 +8,17 @@
 
 ArducamCamera camera;
 
+void print_help_info(void) {
+    print( LL_PRINT, "  ==============================================================  \n");
+    print( LL_PRINT, "||                          TEST OPTIONS                        ||\n");
+    print( LL_PRINT, "||==============================================================||\n");
+    print( LL_PRINT, "||  Press 'h': To show test options                             ||\n");
+    print( LL_PRINT, "||  Press 'a': To run all tests                                 ||\n");
+    print( LL_PRINT, "||  Press 'm': To manually setup camera params and test         ||\n");
+    print( LL_PRINT, "||==============================================================||\n");
+
+}
+
 void print_info(void) { 
     print( LL_PRINT, "  ==============================================================  \n");
     print( LL_PRINT, "||                          TEST SUITE                          ||\n");
@@ -27,17 +38,8 @@ void print_info(void) {
     print( LL_PRINT, "||    P0.26 - MOSI                                              ||\n");
     print( LL_PRINT, "||    P0.27 - SCK                                               ||\n");
     print( LL_PRINT, "||==============================================================||\n");
-}
 
-void print_help_info(void) {
-    print( LL_PRINT, "  ==============================================================  \n");
-    print( LL_PRINT, "||                          TEST OPTIONS                        ||\n");
-    print( LL_PRINT, "||==============================================================||\n");
-    print( LL_PRINT, "||  Press 'h': To show test options                             ||\n");
-    print( LL_PRINT, "||  Press 'a': To run all tests                                 ||\n");
-    print( LL_PRINT, "||  Press 'm': To manually setup camera params and test         ||\n");
-    print( LL_PRINT, "||==============================================================||\n");
-
+    print_help_info();
 }
 
 void main(void) {
@@ -70,7 +72,7 @@ void main(void) {
                     whitebalance = 0,
                     fx = 0,
                     sharpness = 0,
-                    quality = 0,
+                    quality = 0
                     ;
                 
                 print(LL_PRINT, "Manually setting image params...\n");
@@ -195,6 +197,50 @@ void main(void) {
                 print(LL_PRINT, "Selected compression level: %d\n", quality);
                 print(LL_PRINT, "\n");
 
+                print(LL_PRINT, "Select sharpness level: \n");
+                print(LL_PRINT, "************************\n");
+                print(LL_PRINT, "||   Press '0' for Auto\n");
+                print(LL_PRINT, "||   Press '1' for Sharpness Level 1  \n");
+                print(LL_PRINT, "||   Press '2' for Sharpness Level 2  \n");
+                print(LL_PRINT, "||   Press '3' for Sharpness Level 3  \n");
+                print(LL_PRINT, "||   Press '4' for Sharpness Level 4  \n");
+                print(LL_PRINT, "||   Press '5' for Sharpness Level 5  \n");
+                print(LL_PRINT, "||   Press '6' for Sharpness Level 6  \n");
+                print(LL_PRINT, "||   Press '7' for Sharpness Level 7  \n");
+                print(LL_PRINT, "||   Press '8' for Sharpness Level 8  \n");
+
+                key = SEGGER_RTT_WaitKey();
+
+                switch(key) {
+                    case '0': sharpness = CAM_SHARPNESS_LEVEL_AUTO; break;
+                    case '1': sharpness = CAM_SHARPNESS_LEVEL_1; break;
+                    case '2': sharpness = CAM_SHARPNESS_LEVEL_2; break;
+                    case '3': sharpness = CAM_SHARPNESS_LEVEL_3; break;
+                    case '4': sharpness = CAM_SHARPNESS_LEVEL_4; break;
+                    case '5': sharpness = CAM_SHARPNESS_LEVEL_5; break;
+                    case '6': sharpness = CAM_SHARPNESS_LEVEL_6; break;
+                    case '7': sharpness = CAM_SHARPNESS_LEVEL_7; break;
+                    case '8': sharpness = CAM_SHARPNESS_LEVEL_8; break;
+                    default: sharpness = CAM_SHARPNESS_LEVEL_AUTO; break;
+                }key = 0;
+                print(LL_PRINT, "Selected sharpness level: %d\n", sharpness);
+                print(LL_PRINT, "\n");
+
+                print(LL_PRINT, "#############################\n");
+                print(LL_PRINT, "Taking picture... \n");
+                print(LL_PRINT, "#############################\n");
+                test_cam_params(
+                    &camera,
+                    mode,
+                    format,
+                    whitebalance,
+                    fx,
+                    quality,
+                    sharpness
+                );
+                print(LL_PRINT, "###############################\n");
+                print(LL_PRINT, "Image saved to addresss %x#02x", img_buffer);
+
                 break;
             }
             case 'h':
@@ -206,6 +252,7 @@ void main(void) {
                 print_help_info();
                 break;
         }
+        print_info();
     }
 
     return;
