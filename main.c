@@ -8,7 +8,7 @@
 
 ArducamCamera camera;
 
-inline void print_info(void) {
+void print_info(void) {
     //print(LL_PRINT, 
     //    "      ___           ___           ___                       ___           ___     \n"
     //    "     /  /\\         /__/\\         /  /\\        ___          /  /\\         /  /\\    \n"
@@ -44,7 +44,15 @@ inline void print_info(void) {
     print( LL_PRINT, "||==============================================================||\n");
 }
 
-inline void print_help_info(void) {
+void print_help_info(void) {
+    print( LL_PRINT, "  ==============================================================  \n");
+    print( LL_PRINT, "||                          TEST OPTIONS                        ||\n");
+    print( LL_PRINT, "||==============================================================||\n");
+    print( LL_PRINT, "||  Press 'h': To show test options                             ||\n");
+    print( LL_PRINT, "||  Press 'a': To run all tests                                 ||\n");
+    print( LL_PRINT, "||  Press 'm': To manually setup camera params and test         ||\n");
+    print( LL_PRINT, "||==============================================================||\n");
+
 }
 
 void main(void) {
@@ -69,22 +77,39 @@ void main(void) {
                 nrf_delay_us(20);
                 test_all_camera_settings(&camera);
                 break;
+            case 'm': {
+                print(LL_PRINT, "Manually setting image params...\n");
+                print(LL_PRINT, "Choose Image mode: \n");
+                print(LL_PRINT, "*******************\n");
+                print(LL_PRINT,"||    Press '0' for QQVGA (160x120)                               ||\n");
+                print(LL_PRINT,"||    Press '1' for QVGA (320x240)                                ||\n");
+                print(LL_PRINT,"||    Press '2' for VGA (640x480)                                 ||\n");
+                print(LL_PRINT,"||    Press '3' for SVGA (800x600)                                ||\n");
+                print(LL_PRINT,"||    Press '4' for HD (1280x720)                                 ||\n");
+                print(LL_PRINT,"||    Press '5' for SXGA (1280x960)                               ||\n");
+                print(LL_PRINT,"||    Press '6' for UXGA (1600x1200)                              ||\n");
+                print(LL_PRINT,"||    Press '7' for FHD (1920x1080)                               ||\n");
+                print(LL_PRINT,"||    Press '8' for QXGA (2048x1536)                              ||\n");
+                print(LL_PRINT,"||    Press '9' for WQXGA2 (2592x1944)                            ||\n");
+                print(LL_PRINT,"||    Press 'a' for 96x96                                         ||\n");
+                print(LL_PRINT,"||    Press 'b' for 128x128                                       ||\n");
+                print(LL_PRINT,"||    Press 'c' for 320x320                                       ||\n");
+                int mode = 0;
+                while(!mode){ mode = SEGGER_RTT_GetKey();}
+
+                
+
+                break;
+            }
             case 'h':
-                print(LL_PRINT, "Help info\n");
+                print(LL_PRINT, "Help info..\n");
+                print_help_info();
                 break;
             default:
                 print(LL_ERROR, "Unkown option: %c\n", input);
                 break;
         }
     }
-
-#if 0
-    test_hd_jpeg_no_fx_sunny(&camera);
-    test_hd_jpeg_no_fx_cloudy(&camera);
-    test_hd_jpeg_no_fx_office(&camera);
-#endif
-
-    //uint8_t data = arducamSpiTransfer(0x02 & 0x7F);
 
     return;
 }
