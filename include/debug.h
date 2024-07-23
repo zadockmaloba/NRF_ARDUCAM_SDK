@@ -21,30 +21,9 @@ enum STATE
 #define	LL_TEXT(level)	( (level == LL_INFO)?"INFO":( (level == LL_DEBUG)?"DEBUG":( (level == LL_WARNING)?"WARNING":"ERROR") ) )	
 	
 #ifdef DEBUG_ENABLED
-  #define	print(level,msg,...)						\
-	if(level == LL_PRINT)							\
-	{												\
-		SEGGER_RTT_printf(0,msg,##__VA_ARGS__);		\
-	}												\
-	else if(level )			    \
-	{												\
-		if(level == LL_ERROR)						\
-		{											\
-			SEGGER_RTT_printf(0,RTT_CTRL_TEXT_RED "%s: %s +%d " msg RTT_CTRL_RESET,	\
-			LL_TEXT(level),							\
-			__FILE__,								\
-			__LINE__,								\
-			##__VA_ARGS__);							\
-		}											\
-		else										\
-		{											\
-			SEGGER_RTT_printf(0, "%s: %s +%d " msg,	\
-			LL_TEXT(level),							\
-			__FILE__,								\
-			__LINE__,								\
-			##__VA_ARGS__);							\
-		}											\
-	}
+  #define	print(level,msg,...) \
+    SEGGER_RTT_printf(0,msg,##__VA_ARGS__); \
+    nrf_delay_us(20);
 
 #else
   #define print(level,msg,...)	
