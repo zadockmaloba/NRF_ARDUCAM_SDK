@@ -1,7 +1,9 @@
-#include "FlashSPI.h"
 #include <nrfx_spim.h>
 #include <nrf_drv_spi.h>
 #include <nrf_gpio.h>
+#include <string.h>
+
+#include "FlashSPI.h"
 #include "debug.h"
 
 /**
@@ -20,7 +22,7 @@ void flashSPIBegin()
 
 void spim_event_handler(nrfx_spim_evt_t const * p_event, void * p_context)
 {
-    spim_xfer_done = true;
+    flash_spim_xfer_done = true;
 }
 
 void spim_init(void)
@@ -64,24 +66,26 @@ void spim_init(void)
 
 uint32_t flashSPIRead(command_t command, uint8_t *rxBuf, uint32_t len)
 {
-	uint32_t ret = 0;
-	uint32_t retryCount=0;
-	uint8_t txBuf[3] = {0};
-	txBuf[0] = command;
+  uint32_t ret = 0;
+  uint32_t retryCount=0;
+  uint8_t txBuf[3] = {0};
+  txBuf[0] = command;
 
 #if SPI_EVENTS_ENABLED == 1
 	spiTrCompleteFlag = false;
 #endif
 
-    nrf_gpio_pin_clear(FLASH_SPIM_SS_PIN);
-	// nrf_delay_us(20);
-//		print(LL_ERROR, "SPI tx \n");
-	ret = nrf_drv_spi_transfer(&flash_spim, txBuf, sizeof(command_t)+len, rxBuf, len +  sizeof(command_t));
-	if(ret != NRF_SUCCESS)
-	{
-		//print(LL_ERROR, "SPI tx failed\n");
-		goto end;
-	}
+  nrf_gpio_pin_clear(FLASH_SPIM_SS_PIN);
+  nrf_delay_us(20);
+  //ret = nrf_drv_spi_transfer(&flash_spim, txBuf, sizeof(command_t)+len, rxBuf, len +  sizeof(command_t));
+  //spim_xfer_done = false;
+  nrfx_spim_xfer_desc_t xfer = NRFX_SPIM_XFER_TRX(txBuf, sizeof(command_t)+len, rxBuf, len +  sizeof(command_t));
+  ret = nrfx_spim_xfer(&flash_spim, &xfer, 0);
+  if(ret != NRF_SUCCESS)
+  {
+    //print(LL_ERROR, "SPI tx failed\n");
+    goto end;
+  }
 
 #if SPI_EVENTS_ENABLED == 1
 	while (!spiTrCompleteFlag)
@@ -126,7 +130,9 @@ uint32_t flashSPIWrite(command_t command, uint8_t *txBuf, uint32_t len)
 	spiTrCompleteFlag = false;
 #endif
 
-	ret = nrf_drv_spi_transfer(&flash_spim, transferBuf, len + sizeof(command_t), NULL, 0);
+	//ret = nrf_drv_spi_transfer(&flash_spim, transferBuf, len + sizeof(command_t), NULL, 0);
+  nrfx_spim_xfer_desc_t xfer = NRFX_SPIM_XFER_TRX(transferBuf, len + sizeof(command_t), NULL, 0);
+  ret = nrfx_spim_xfer(&flash_spim, &xfer, 0);
 	if(ret != NRF_SUCCESS)
 	{
 		print(LL_ERROR, "SPI tx failed\n");

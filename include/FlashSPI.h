@@ -14,7 +14,7 @@ typedef uint8_t command_t;
 
 #define SPI_SUCCESS 0
 
-static volatile bool spim_xfer_done; /**< Flag used to indicate that SPIM instance completed the transfer. */
+static volatile bool flash_spim_xfer_done; /**< Flag used to indicate that SPIM instance completed the transfer. */
 
 #define FLASH_SPIM_MISO_PIN  NRF_GPIO_PIN_MAP(0,21)  /**< SPIM MISO signal. */
 #define FLASH_SPIM_MOSI_PIN  NRF_GPIO_PIN_MAP(0,20)   /**< SPIM MOSI signal. */
