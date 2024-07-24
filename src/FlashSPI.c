@@ -2,6 +2,7 @@
 #include <nrfx_spim.h>
 #include <nrf_drv_spi.h>
 #include <nrf_gpio.h>
+#include "debug.h"
 
 /**
  * @brief SPIM user event handler.
@@ -11,7 +12,8 @@ static void spim_event_handler(nrfx_spim_evt_t const * p_event, void * p_context
 
 static void spim_init(void);
 
-void flashSPIBegin() {
+void flashSPIBegin() 
+{
     spim_init();
 }
 
@@ -58,4 +60,105 @@ void spim_init(void)
       NRF_GPIO_PIN_NOSENSE);
 
       //NRF_P0->PIN_CNF[SPIM_SS_PIN] |= (NRF_GPIO_PIN_H0H1 << GPIO_PIN_CNF_DRIVE_Pos);
+}
+
+uint32_t flashSPIRead(command_t command, uint8_t *rxBuf, uint32_t len)
+{
+	uint32_t ret = 0;
+	uint32_t retryCount=0;
+	uint8_t txBuf[3] = {0};
+	txBuf[0] = command;
+
+#if SPI_EVENTS_ENABLED == 1
+	spiTrCompleteFlag = false;
+#endif
+
+    nrf_gpio_pin_clear(FLASH_SPIM_SS_PIN);
+	// nrf_delay_us(20);
+//		print(LL_ERROR, "SPI tx \n");
+	ret = nrf_drv_spi_transfer(&flash_spim, txBuf, sizeof(command_t)+len, rxBuf, len +  sizeof(command_t));
+	if(ret != NRF_SUCCESS)
+	{
+		//print(LL_ERROR, "SPI tx failed\n");
+		goto end;
+	}
+
+#if SPI_EVENTS_ENABLED == 1
+	while (!spiTrCompleteFlag)
+	{
+		retryCount++;
+		if (retryCount >= SPI_RD_WR_RETRY_COUNT)
+		{
+			ret = NRF_ERROR_TIMEOUT;
+			goto end;
+		}
+	}
+#endif
+
+end:
+
+#if SPI_EVENTS_ENABLED == 1
+	spiTrCompleteFlag = false;
+#endif
+
+    nrf_gpio_pin_set(FLASH_SPIM_SS_PIN);
+    if (ret != NRF_SUCCESS)
+    {
+        //EXCEPTION(ret);
+    }
+	return ret;
+}
+
+uint32_t flashSPIWrite(command_t command, uint8_t *txBuf, uint32_t len)
+{
+	uint32_t ret = SPI_SUCCESS;
+	uint32_t retryCount=0;
+	int i = 0;
+	//uint8_t *transferBuf = NULL;
+	static uint8_t transferBuf[80] = {0};
+
+  nrf_gpio_pin_clear(FLASH_SPIM_SS_PIN);
+	nrf_delay_us(20);
+	memcpy(transferBuf, &command, sizeof(command_t));
+	memcpy(transferBuf + sizeof(command_t), txBuf, len);
+
+#if SPI_EVENTS_ENABLED == 1
+	spiTrCompleteFlag = false;
+#endif
+
+	ret = nrf_drv_spi_transfer(&flash_spim, transferBuf, len + sizeof(command_t), NULL, 0);
+	if(ret != NRF_SUCCESS)
+	{
+		print(LL_ERROR, "SPI tx failed\n");
+		goto end;
+	}
+	
+#if SPI_EVENTS_ENABLED == 1
+	while (!spiTrCompleteFlag)
+	{
+		retryCount++;
+		if (retryCount >= SPI_RD_WR_RETRY_COUNT)
+		{
+			ret = NRF_ERROR_TIMEOUT;
+			goto end;
+		}
+	}
+#endif
+
+
+end:
+
+#if SPI_EVENTS_ENABLED == 1
+	spiTrCompleteFlag = false;
+#endif
+
+    print(LL_INFO, " EEEENNNNNDDDDD SPI tx failed\n");
+//	nrf_delay_ms(250);
+//	free(transferBuf);
+    nrf_gpio_pin_set(FLASH_SPIM_SS_PIN);
+    if (ret != NRF_SUCCESS)
+    {
+        //EXCEPTION(ret);
+    }
+	return ret;
 }
