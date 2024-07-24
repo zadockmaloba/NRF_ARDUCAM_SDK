@@ -20,10 +20,17 @@ static volatile bool flash_spim_xfer_done; /**< Flag used to indicate that SPIM 
 #define FLASH_SPIM_MOSI_PIN  NRF_GPIO_PIN_MAP(0,20)   /**< SPIM MOSI signal. */
 #define FLASH_SPIM_SCK_PIN   NRF_GPIO_PIN_MAP(0,19)   /**< SPIM SCK signal. */
 #define FLASH_SPIM_SS_PIN    NRF_GPIO_PIN_MAP(0,17)  /**< SPIM CS signal. */
+#define FLASH_WP_PIN         NRF_GPIO_PIN_MAP(0,22)  /**< Write protect pin. */
+#define FLASH_HOLD_PIN       NRF_GPIO_PIN_MAP(0,23)
 
 void flashSPIBegin();
-uint32_t flashSPIRead(command_t command, uint8_t *rxBuf, uint32_t len);
-uint32_t flashSPIWrite(command_t command, uint8_t *txBuf, uint32_t len);
+void flashSPIEnd();
+
+void flashSPIRead(uint32_t address, uint8_t* buffer, size_t length);
+void flashSPIWrite(uint32_t address, uint8_t* data, size_t length);
+
+uint32_t flashSPIReadCommand(command_t command, uint8_t *rxBuf, uint32_t len);
+uint32_t flashSPIWriteCommand(command_t command, uint8_t *txBuf, uint32_t len);
 
 
 #endif //__FLASH_SPI_H
