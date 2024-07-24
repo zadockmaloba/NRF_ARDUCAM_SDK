@@ -1,4 +1,5 @@
 #include "test.h"
+#include "FlashSPI.h"
 
 void test_cam_params(ArducamCamera *camera, 
                     CAM_IMAGE_MODE mode, 
@@ -34,7 +35,7 @@ void test_cam_params(ArducamCamera *camera,
     takePicture(camera, mode, fmt);
 
     uint32_t bytes_read = 0;
-#if PRINT_IMG_DATA
+#if 1
     do {
         bytes_read += readBuff(camera, img_buffer, IMG_BUFF_SIZE);
     } while(camera->receivedLength > 0);
@@ -51,6 +52,14 @@ void test_cam_params(ArducamCamera *camera,
     }
     print(LL_PRINT, "\n");
 #endif //PRINT_IMG_DATA
+
+    print(LL_PRINT, "Writing to flash\n");
+
+    flashSPIWrite(0x00, img_buffer, 4092);
+
+    uint8_t resp_buffer[4096] = {0};
+
+    flashSPIRead(0x00, resp_buffer, 4096 );
 
     print(LL_PRINT, "----------------------------------------------\n");
 }
