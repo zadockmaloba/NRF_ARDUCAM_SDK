@@ -25,6 +25,9 @@ void test_cam_params(ArducamCamera *camera,
     //Disable color effects
     setColorEffect(camera, fx);
 
+    //Set sharpness level
+    setSharpness(camera, sh);
+
     //Set image quality
     setImageQuality(camera, qlty);
 
