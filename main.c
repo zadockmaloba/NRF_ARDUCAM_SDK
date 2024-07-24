@@ -5,6 +5,7 @@
 
 #include "debug.h"
 #include "test.h"
+#include "FlashSPI.h"
 
 ArducamCamera camera;
 
@@ -50,6 +51,9 @@ void main(void) {
 
     nrf_delay_us(20);
     print_info();
+
+    //Initialize external flash SPI instance
+    flashSPIBegin();
 
     //Initialize camera instance and start SPI
     camera = createArducamCamera(SPIM_SS_PIN);
