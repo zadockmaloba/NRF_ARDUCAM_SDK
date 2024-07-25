@@ -63,7 +63,6 @@ void test_cam_params(CAM_IMAGE_MODE mode,
 
     arducamSpiUninit();
 
-    flashSPIBegin();
     print(LL_PRINT, "Writing to flash\n");
 
     write_flash(IMG_STORE_ADDR, img_buffer, 4096);
