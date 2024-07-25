@@ -5,6 +5,7 @@
 #include <nrf_fstorage.h>
 #include <nrf_fstorage_sd.h>
 #include <nrf_fstorage_nvmc.h>
+#include <SEGGER_RTT.h>
 
 #include <string.h>
 
@@ -33,7 +34,7 @@ static void fstorage_evt_handler(nrf_fstorage_evt_t * p_evt)
 {
     if (p_evt->result != NRF_SUCCESS)
     {
-        print(LL_PRINT, "--> Event received: ERROR while executing an fstorage operation.\n");
+        SEGGER_RTT_printf(0, "--> Event received: ERROR while executing an fstorage operation.\n");
         return;
     }
 
@@ -41,13 +42,13 @@ static void fstorage_evt_handler(nrf_fstorage_evt_t * p_evt)
     {
         case NRF_FSTORAGE_EVT_WRITE_RESULT:
         {
-            print(LL_PRINT, "--> Event received: wrote %d bytes at address 0x%x.\n",
+            SEGGER_RTT_printf(0, "--> Event received: wrote %d bytes at address 0x%x.\n",
                          p_evt->len, p_evt->addr);
         } break;
 
         case NRF_FSTORAGE_EVT_ERASE_RESULT:
         {
-            print(LL_PRINT, "--> Event received: erased %d page from address 0x%x.\n",
+            SEGGER_RTT_printf(0, "--> Event received: erased %d page from address 0x%x.\n",
                          p_evt->len, p_evt->addr);
         } break;
 
@@ -58,10 +59,10 @@ static void fstorage_evt_handler(nrf_fstorage_evt_t * p_evt)
 
 static void print_flash_info(nrf_fstorage_t * p_fstorage)
 {
-    print(LL_PRINT, "========| flash info |========\n");
-    print(LL_PRINT, "erase unit: \t%d bytes\n",      p_fstorage->p_flash_info->erase_unit);
-    print(LL_PRINT, "program unit: \t%d bytes\n",    p_fstorage->p_flash_info->program_unit);
-    print(LL_PRINT, "==============================\n");
+    SEGGER_RTT_printf(0, "========| flash info |========\n");
+    SEGGER_RTT_printf(0, "erase unit: \t%d bytes\n",      p_fstorage->p_flash_info->erase_unit);
+    SEGGER_RTT_printf(0, "program unit: \t%d bytes\n",    p_fstorage->p_flash_info->program_unit);
+    SEGGER_RTT_printf(0, "==============================\n");
 }
 
 
