@@ -49,24 +49,24 @@ void test_cam_params(CAM_IMAGE_MODE mode,
     uint32_t num_pages = ((camera.receivedLength - 1) / FLASH_PAGE_SIZE) + 1;
     uint32_t tmp_pg = 0;
 
-    SEGGER_RTT_printf(0, "Erasing flash:");
+    SEGGER_RTT_printf(0, "Erasing flash...");
     for (uint32_t page = 0; page < num_pages; page++) {
          erase_flash_page(IMG_STORE_ADDR + page * FLASH_PAGE_SIZE);
          tmp_pg = IMG_STORE_ADDR + page * FLASH_PAGE_SIZE;
-         if ((bytes_read % 10) == 0) SEGGER_RTT_printf(0, ".");
+         //if (((camera.receivedLength - 1) % 12) == 0) SEGGER_RTT_printf(0, ".");
     }
     //erase_flash_pages(IMG_STORE_ADDR, num_pages);
     SEGGER_RTT_printf(0, "\nFlash erased from %#08x to %#08x\n", IMG_STORE_ADDR, tmp_pg);
 
     // Read image data in chunks and write to flash
-    SEGGER_RTT_printf(0, "Writing image data to flash:");
+    SEGGER_RTT_printf(0, "Writing image data to flash...");
     do {
         bytes_read = readBuff(&camera, img_buffer, IMG_BUFF_SIZE);
         //print(LL_PRINT, "First bytes: %#002x, %#002x", img_buffer[0], img_buffer[1]);
         write_flash(flash_address, img_buffer, IMG_BUFF_SIZE);
         flash_address += bytes_read;
         total_bytes_read += bytes_read;
-        if ((bytes_read % 10) == 0) SEGGER_RTT_printf(0, ".");
+        //if ((bytes_read % 12) == 0) SEGGER_RTT_printf(0, ".");
     } while (camera.receivedLength > 0);
     nrf_delay_us(10);
     SEGGER_RTT_printf(0, "\nWrite done\n");
