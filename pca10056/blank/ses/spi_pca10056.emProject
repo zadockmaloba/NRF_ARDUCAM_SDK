@@ -45,6 +45,10 @@
       Name="Debug"
       link_use_linker_script_file="No"
       linker_section_placement_file="flash_placement.xml" />
+    <configuration
+      Name="Release"
+      link_use_linker_script_file="No"
+      linker_section_placement_file="flash_placement.xml" />
     <folder Name="Application">
       <file file_name="../../../src/ArducamCamera.c" />
       <file file_name="../../../src/ArducamSpi.c" />
@@ -113,6 +117,7 @@
       <file file_name="../../../../../../external/segger_rtt/SEGGER_RTT_printf.c" />
       <file file_name="../../../../../../external/segger_rtt/SEGGER_RTT_Syscalls_SES.c">
         <configuration Name="Debug" build_exclude_from_build="Yes" />
+        <configuration Name="Release" build_exclude_from_build="Yes" />
       </file>
     </folder>
     <folder Name="Segger Startup Files">
