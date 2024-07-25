@@ -10,7 +10,7 @@
 #include "debug.h"
 
 #define TMP_IMG_BUFF_SIZE 256
-#define IMG_BUFF_SIZE 16000
+#define IMG_BUFF_SIZE 256
 static uint8_t temp_img[TMP_IMG_BUFF_SIZE] = {0};
 static uint8_t img_buffer[IMG_BUFF_SIZE] = {0};
 
