@@ -6,6 +6,7 @@
 #include "debug.h"
 #include "test.h"
 #include "FlashSPI.h"
+#include "InternalFlash.h"
 
 ArducamCamera camera;
 
@@ -68,6 +69,12 @@ void main(void) {
     flashSPIWrite(0x00, test, 4);
 
     flashSPIRead(0x00, resp, 4);
+
+    fstorage_init();
+
+    write_flash(0x3E000, test, 4);
+
+    read_flash(0x3E000, resp, 4);
 
 #if 0
     while (1) {
