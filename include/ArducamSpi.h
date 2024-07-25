@@ -33,6 +33,7 @@ extern "C" {
 #endif
 
 void arducamSpiBegin(void);
+void arducamSpiUninit(void);
 uint8_t arducamSpiTransfer(uint8_t);
 // void arducamSpiCsOutputMode(int);
 // void arducamSpiCsHigh(int);

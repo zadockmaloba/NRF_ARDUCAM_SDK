@@ -1,8 +1,7 @@
 #include "test.h"
 #include "FlashSPI.h"
 
-void test_cam_params(ArducamCamera *camera, 
-                    CAM_IMAGE_MODE mode, 
+void test_cam_params(CAM_IMAGE_MODE mode, 
                     CAM_IMAGE_PIX_FMT fmt, 
                     CAM_WHITE_BALANCE wb, 
                     CAM_COLOR_FX fx, 
@@ -11,34 +10,40 @@ void test_cam_params(ArducamCamera *camera,
 {
     print(LL_PRINT, "********** CAMERA SETTINGS **********\n");
     print(LL_PRINT, "Mode: %d, Fmt: %d, WhitBlnce: %d, FX: %d, Qlty: %d, Shrpness: %d\n", mode, fmt, wb, fx, qlty, sh);
+
+    //Initialize camera instance and start SPI
+    ArducamCamera camera = createArducamCamera(SPIM_SS_PIN);
+    begin(&camera);
+
+    nrf_delay_us(20);
     
     //Reset previous camera settings
-    reset(camera);
+    reset(&camera);
     memset((void*)img_buffer, 0, IMG_BUFF_SIZE * sizeof(img_buffer[0]));
 
     //Enable autfocus
-    setAutoFocus(camera, 1);
+    setAutoFocus(&camera, 1);
 
-    setAutoWhiteBalance(camera, 1);
+    setAutoWhiteBalance(&camera, 1);
 
-    setAutoWhiteBalanceMode(camera, wb);
+    setAutoWhiteBalanceMode(&camera, wb);
 
     //Disable color effects
-    setColorEffect(camera, fx);
+    setColorEffect(&camera, fx);
 
     //Set sharpness level
-    setSharpness(camera, sh);
+    setSharpness(&camera, sh);
 
     //Set image quality
-    setImageQuality(camera, qlty);
+    setImageQuality(&camera, qlty);
 
-    takePicture(camera, mode, fmt);
+    takePicture(&camera, mode, fmt);
 
     uint32_t bytes_read = 0;
 #if 1
     do {
-        bytes_read += readBuff(camera, img_buffer, IMG_BUFF_SIZE);
-    } while(camera->receivedLength > 0);
+        bytes_read += readBuff(&camera, img_buffer, IMG_BUFF_SIZE);
+    } while(camera.receivedLength > 0);
 #else
     bytes_read = camera->receivedLength;
 #endif
@@ -53,6 +58,9 @@ void test_cam_params(ArducamCamera *camera,
     print(LL_PRINT, "\n");
 #endif //PRINT_IMG_DATA
 
+    arducamSpiUninit();
+
+    flashSPIBegin();
     print(LL_PRINT, "Writing to flash\n");
 
     flashSPIWrite(0x00, img_buffer, 4092);
@@ -61,10 +69,12 @@ void test_cam_params(ArducamCamera *camera,
 
     flashSPIRead(0x00, resp_buffer, 4096 );
 
+    flashSPIEnd();
+
     print(LL_PRINT, "----------------------------------------------\n");
 }
 
-void test_all_camera_settings(ArducamCamera* camera) {
+void test_all_camera_settings() {
     print(LL_PRINT, "********** ALL CAMERA SETTINGS **********\n");
 
     for(int i=0; i< CAM_IMAGE_MODE_NONE; ++i)
@@ -73,6 +83,6 @@ void test_all_camera_settings(ArducamCamera* camera) {
     for(int l=0; l< CAM_COLOR_FX_SOLARIZE; ++l)
     //for(int m=0; m< CAM_SHARPNESS_LEVEL_8; ++m) 
     {
-        test_cam_params(camera, i, j, k, l, DEFAULT_QUALITY, 6);
+        test_cam_params(i, j, k, l, DEFAULT_QUALITY, 6);
     }
 }

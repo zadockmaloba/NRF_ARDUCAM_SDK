@@ -52,13 +52,24 @@ void main(void) {
     nrf_delay_us(20);
     print_info();
 
-    //Initialize external flash SPI instance
     flashSPIBegin();
 
-    //Initialize camera instance and start SPI
-    camera = createArducamCamera(SPIM_SS_PIN);
-    begin(&camera);
+    uint8_t test[4] = {0xDE,0xAD, 0xBE, 0xEF};
+    uint8_t resp[4] = {0};
 
+    nrf_gpio_pin_clear(FLASH_SPIM_SS_PIN);
+    nrf_delay_us(20);
+
+    uint8_t test_data = flashSPITransfer(0x15);
+
+    nrf_delay_us(20);
+    nrf_gpio_pin_set(FLASH_SPIM_SS_PIN);
+
+    flashSPIWrite(0x00, test, 4);
+
+    flashSPIRead(0x00, resp, 4);
+
+#if 0
     while (1) {
         int input = SEGGER_RTT_WaitKey();
         if(input < 1) continue;
@@ -66,7 +77,7 @@ void main(void) {
             case 'a':
                 print(LL_PRINT, "Running all tests....\n");
                 nrf_delay_us(20);
-                test_all_camera_settings(&camera);
+                test_all_camera_settings();
                 break;
             case 'm': {
                 int key = 0;
@@ -234,7 +245,6 @@ void main(void) {
                 print(LL_PRINT, "Taking picture... \n");
                 print(LL_PRINT, "#############################\n");
                 test_cam_params(
-                    &camera,
                     mode,
                     format,
                     whitebalance,
@@ -258,6 +268,6 @@ void main(void) {
         }
         print_info();
     }
-
+#endif
     return;
 }

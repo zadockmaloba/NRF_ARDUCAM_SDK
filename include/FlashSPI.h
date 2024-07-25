@@ -23,8 +23,10 @@ static volatile bool flash_spim_xfer_done; /**< Flag used to indicate that SPIM 
 #define FLASH_WP_PIN         NRF_GPIO_PIN_MAP(0,22)  /**< Write protect pin. */
 #define FLASH_HOLD_PIN       NRF_GPIO_PIN_MAP(0,23)
 
-void flashSPIBegin();
-void flashSPIEnd();
+void flashSPIBegin(void);
+void flashSPIEnd(void);
+
+uint8_t flashSPITransfer(uint8_t);
 
 void flashSPIRead(uint32_t address, uint8_t* buffer, size_t length);
 void flashSPIWrite(uint32_t address, uint8_t* data, size_t length);

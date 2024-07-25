@@ -33,6 +33,11 @@ void arducamSpiBegin(void)
     spim_init();
 }
 
+void arducamSpiUninit(void)
+{
+    nrfx_spim_uninit(&spim);
+}
+
 uint8_t arducamSpiTransfer(uint8_t data)
 {
     return spim_data_transfer(data);
@@ -55,7 +60,7 @@ void spim_init(void)
     spim_config.miso_pin = SPIM_MISO_PIN;
     spim_config.mosi_pin = SPIM_MOSI_PIN;
     spim_config.sck_pin  = SPIM_SCK_PIN;
-    spim_config.frequency = NRF_SPIM_FREQ_8M;
+    spim_config.frequency = NRF_SPIM_FREQ_4M;
     spim_config.bit_order = NRF_SPIM_BIT_ORDER_MSB_FIRST;
 
     nrfx_spim_init(&spim, &spim_config, spim_event_handler, NULL);
