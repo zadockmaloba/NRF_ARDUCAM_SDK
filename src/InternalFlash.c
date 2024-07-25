@@ -42,14 +42,14 @@ static void fstorage_evt_handler(nrf_fstorage_evt_t * p_evt)
     {
         case NRF_FSTORAGE_EVT_WRITE_RESULT:
         {
-            SEGGER_RTT_printf(0, "--> Event received: wrote %d bytes at address 0x%x.\n",
-                         p_evt->len, p_evt->addr);
+            // SEGGER_RTT_printf(0, "--> Event received: wrote %d bytes at address 0x%x.\n",
+            //              p_evt->len, p_evt->addr);
         } break;
 
         case NRF_FSTORAGE_EVT_ERASE_RESULT:
         {
-            SEGGER_RTT_printf(0, "--> Event received: erased %d page from address 0x%x.\n",
-                         p_evt->len, p_evt->addr);
+            // SEGGER_RTT_printf(0, "--> Event received: erased %d page from address 0x%x.\n",
+            //              p_evt->len, p_evt->addr);
         } break;
 
         default:
@@ -94,7 +94,7 @@ void write_flash(uint32_t address, uint8_t *data, uint32_t length) {
     wait_for_flash_ready(&fstorage);
 
     nrf_delay_ms(20);
-    print(LL_INFO, "Flash write done. \n");
+    //print(LL_INFO, "Flash write done. \n");
 }
 
 void read_flash(uint32_t address, uint8_t *data, uint32_t length) {
