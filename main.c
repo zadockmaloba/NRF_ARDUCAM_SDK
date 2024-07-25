@@ -133,10 +133,11 @@ void main(void) {
                 key = SEGGER_RTT_WaitKey();
 
                 switch (key) {
+                    case '0': format = CAM_IMAGE_PIX_FMT_NONE; break;
                     case '1': format = CAM_IMAGE_PIX_FMT_JPG; break;
                     case '2': format = CAM_IMAGE_PIX_FMT_RGB565; break;
                     case '3': format = CAM_IMAGE_PIX_FMT_YUV; break;
-                    default: format = CAM_IMAGE_PIX_FMT_NONE; break;
+                    default: format = CAM_IMAGE_PIX_FMT_JPG; break;
                 }key = 0;
                 SEGGER_RTT_printf(0, "Selected image pixel format: %d\n", format);
                 print(LL_PRINT, "\n");
