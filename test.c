@@ -1,5 +1,8 @@
 #include "test.h"
 #include "FlashSPI.h"
+#include "InternalFlash.h"
+
+#define IMG_STORE_ADDR 0x3E100
 
 void test_cam_params(CAM_IMAGE_MODE mode, 
                     CAM_IMAGE_PIX_FMT fmt, 
@@ -63,13 +66,13 @@ void test_cam_params(CAM_IMAGE_MODE mode,
     flashSPIBegin();
     print(LL_PRINT, "Writing to flash\n");
 
-    flashSPIWrite(0x00, img_buffer, 4092);
+    write_flash(IMG_STORE_ADDR, img_buffer, 4096);
 
     uint8_t resp_buffer[4096] = {0};
 
-    flashSPIRead(0x00, resp_buffer, 4096 );
+    read_flash(IMG_STORE_ADDR, resp_buffer, 4096 );
 
-    flashSPIEnd();
+    print(LL_PRINT, "Image stored to flash address: %#08x", IMG_STORE_ADDR);
 
     print(LL_PRINT, "----------------------------------------------\n");
 }
