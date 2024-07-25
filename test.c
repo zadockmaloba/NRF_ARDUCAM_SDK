@@ -55,6 +55,7 @@ void test_cam_params(CAM_IMAGE_MODE mode,
          tmp_pg = IMG_STORE_ADDR + page * FLASH_PAGE_SIZE;
          if ((bytes_read % 10) == 0) SEGGER_RTT_printf(0, ".");
     }
+    //erase_flash_pages(IMG_STORE_ADDR, num_pages);
     SEGGER_RTT_printf(0, "\nFlash erased from %#08x to %#08x\n", IMG_STORE_ADDR, tmp_pg);
 
     // Read image data in chunks and write to flash

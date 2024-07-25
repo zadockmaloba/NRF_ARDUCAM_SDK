@@ -107,3 +107,8 @@ void erase_flash_page(uint32_t page_address) {
     ret_code_t rc = nrf_fstorage_erase(&fstorage, page_address, 1, NULL);
     APP_ERROR_CHECK(rc);
 }
+
+void erase_flash_pages(uint32_t page_address, uint32_t pages) {
+    ret_code_t rc = nrf_fstorage_erase(&fstorage, page_address, pages, NULL);
+    APP_ERROR_CHECK(rc);
+}
