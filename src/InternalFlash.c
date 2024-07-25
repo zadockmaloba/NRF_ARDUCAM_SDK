@@ -79,8 +79,8 @@ void fstorage_init(void) {
     p_fs_api = &nrf_fstorage_nvmc;
 
     fstorage.evt_handler = fstorage_evt_handler;
-    fstorage.start_addr = 0x3E000; // Example start address
-    fstorage.end_addr   = 0x3FFFF; // Example end address
+    fstorage.start_addr = 0x40000; // start address
+    fstorage.end_addr   = 0xDFFFF; // end address
 
     ret_code_t rc = nrf_fstorage_init(&fstorage, p_fs_api, NULL);
     APP_ERROR_CHECK(rc);
@@ -91,11 +91,15 @@ void write_flash(uint32_t address, uint8_t *data, uint32_t length) {
     APP_ERROR_CHECK(rc);
 
     wait_for_flash_ready(&fstorage);
+
+    nrf_delay_ms(20);
     print(LL_INFO, "Flash write done. \n");
 }
 
 void read_flash(uint32_t address, uint8_t *data, uint32_t length) {
+    nrf_delay_ms(10);
     memcpy(data, (void*)address, length);
+    nrf_delay_ms(10);
 }
 
 void erase_flash_page(uint32_t page_address) {
