@@ -248,7 +248,6 @@ void main(void) {
                     sharpness
                 );
                 print(LL_PRINT, "###############################\n");
-                print(LL_PRINT, "Image saved to addresss %#08x\n", img_buffer);
 
                 break;
             }
