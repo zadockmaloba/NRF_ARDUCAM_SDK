@@ -2,7 +2,7 @@
 #include "FlashSPI.h"
 #include "InternalFlash.h"
 
-#define IMG_STORE_ADDR 0x40100
+#define IMG_STORE_ADDR 0x40000
 
 void test_cam_params(CAM_IMAGE_MODE mode, 
                     CAM_IMAGE_PIX_FMT fmt, 
@@ -47,9 +47,9 @@ void test_cam_params(CAM_IMAGE_MODE mode,
     
     // Erase flash pages where image will be stored
     uint32_t num_pages = ((camera.receivedLength - 1) / FLASH_PAGE_SIZE) + 1;
-    // for (uint32_t page = 0; page < num_pages; page++) {
-    //     erase_flash_page(IMG_STORE_ADDR + page * FLASH_PAGE_SIZE);
-    // }
+    for (uint32_t page = 0; page < num_pages; page++) {
+         erase_flash_page(IMG_STORE_ADDR + page * FLASH_PAGE_SIZE);
+    }
 
     // Read image data in chunks and write to flash
     do {
