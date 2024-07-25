@@ -4,6 +4,8 @@
 #include <stdint.h>
 #include <stdbool.h>
 
+#define FLASH_PAGE_SIZE 4096
+
 void fstorage_init(void);
 
 void write_flash(uint32_t address, uint8_t *data, uint32_t length);
