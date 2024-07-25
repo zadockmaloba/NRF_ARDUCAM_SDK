@@ -53,30 +53,18 @@ void main(void) {
     nrf_delay_us(20);
     print_info();
 
-    flashSPIBegin();
+    fstorage_init();
 
+#if 0
     uint8_t test[4] = {0xDE,0xAD, 0xBE, 0xEF};
     uint8_t resp[4] = {0};
 
-    nrf_gpio_pin_clear(FLASH_SPIM_SS_PIN);
-    nrf_delay_us(20);
+    write_flash(0x3E100, test, 4);
 
-    uint8_t test_data = flashSPITransfer(0x15);
+    read_flash(0x3E100, resp, 4);
+#endif
 
-    nrf_delay_us(20);
-    nrf_gpio_pin_set(FLASH_SPIM_SS_PIN);
-
-    flashSPIWrite(0x00, test, 4);
-
-    flashSPIRead(0x00, resp, 4);
-
-    fstorage_init();
-
-    write_flash(0x3E000, test, 4);
-
-    read_flash(0x3E000, resp, 4);
-
-#if 0
+#if 1
     while (1) {
         int input = SEGGER_RTT_WaitKey();
         if(input < 1) continue;
