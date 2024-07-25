@@ -65,6 +65,8 @@ void test_cam_params(CAM_IMAGE_MODE mode,
 
     print(LL_PRINT, "Writing to flash\n");
 
+    erase_flash_page(IMG_STORE_ADDR);
+
     write_flash(IMG_STORE_ADDR, img_buffer, 4096);
 
     uint8_t resp_buffer[4096] = {0};

@@ -10,6 +10,8 @@ void write_flash(uint32_t address, uint8_t *data, uint32_t length);
 
 void read_flash(uint32_t address, uint8_t *data, uint32_t length);
 
+void erase_flash_page(uint32_t page_address);
+
 //void wait_for_flash_ready(nrf_fstorage_t const * p_fstorage);
 
 
