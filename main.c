@@ -132,7 +132,7 @@ void main(void) {
 
                 key = SEGGER_RTT_WaitKey();
 
-                switch (format) {
+                switch (key) {
                     case '1': format = CAM_IMAGE_PIX_FMT_JPG; break;
                     case '2': format = CAM_IMAGE_PIX_FMT_RGB565; break;
                     case '3': format = CAM_IMAGE_PIX_FMT_YUV; break;
