@@ -8,6 +8,7 @@
 #include "InternalFlash.h"
 #include "Config.h"
 #include "GpioHandler.h"
+#include "Timer.h"
 
 ArducamCamera camera;
 
@@ -84,6 +85,8 @@ void main(void) {
     set_button2_callback(arducamConfigureCamera);
 
     gpio_handler_init();
+
+    timer_init();
 
     while(1) {
         __WFE();
