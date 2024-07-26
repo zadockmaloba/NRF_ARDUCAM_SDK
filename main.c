@@ -50,6 +50,10 @@ void main(void) {
 
     print(LL_PRINT, "Initializing ArduCAM... \n");
 
+    // Initialize camera instance and start SPI
+    camera = createArducamCamera(SPIM_SS_PIN);
+    begin(&camera);
+
     nrf_delay_us(20);
     print_info();
 
@@ -72,7 +76,7 @@ void main(void) {
             case 'a':
                 print(LL_PRINT, "Running all tests....\n");
                 nrf_delay_us(20);
-                test_all_camera_settings();
+                test_all_camera_settings(&camera);
                 break;
             case 'm': {
                 int key = 0;
@@ -241,6 +245,7 @@ void main(void) {
                 print(LL_PRINT, "Taking picture... \n");
                 print(LL_PRINT, "#############################\n");
                 test_cam_params(
+                    &camera,
                     mode,
                     format,
                     whitebalance,
