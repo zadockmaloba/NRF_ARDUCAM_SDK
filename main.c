@@ -5,8 +5,9 @@
 
 #include "debug.h"
 #include "test.h"
-#include "FlashSPI.h"
 #include "InternalFlash.h"
+#include "Config.h"
+#include "GpioHandler.h"
 
 ArducamCamera camera;
 
@@ -44,6 +45,24 @@ void print_info(void) {
     print_help_info();
 }
 
+void arducamTakePicture(void) {
+    print(LL_PRINT, "Button 1 pressed... \n");
+    test_cam_params(
+        &camera,
+        globalCameraConfig.mode,
+        globalCameraConfig.format,
+        globalCameraConfig.whitebalance,
+        globalCameraConfig.fx,
+        globalCameraConfig.quality,
+        globalCameraConfig.sharpness
+    );
+}
+
+void arducamConfigureCamera(void) {
+    print(LL_PRINT, "Button 2 pressed... \n");
+    tui_configure_camera(&camera);
+}
+
 void main(void) {
     SEGGER_RTT_Init();
     nrf_delay_ms(20);
@@ -59,16 +78,16 @@ void main(void) {
 
     fstorage_init();
 
+    set_button1_callback(arducamTakePicture);
+    set_button2_callback(arducamConfigureCamera);
+
+    gpio_handler_init();
+
+    while(1) {
+        __WFE();
+    };
+
 #if 0
-    uint8_t test[4] = {0xDE,0xAD, 0xBE, 0xEF};
-    uint8_t resp[4] = {0};
-
-    write_flash(0x3E100, test, 4);
-
-    read_flash(0x3E100, resp, 4);
-#endif
-
-#if 1
     while (1) {
         int input = SEGGER_RTT_WaitKey();
         if(input < 1) continue;
