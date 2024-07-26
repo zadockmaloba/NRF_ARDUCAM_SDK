@@ -21,21 +21,6 @@ void test_cam_params(ArducamCamera *camera,
     // reset(&camera);
     memset((void*)img_buffer, 0, IMG_BUFF_SIZE * sizeof(img_buffer[0]));
 
-    // Enable autofocus
-    setAutoFocus(camera, 1);
-
-    setAutoWhiteBalance(camera, 1);
-    setAutoWhiteBalanceMode(camera, wb);
-
-    // Disable color effects
-    setColorEffect(camera, fx);
-
-    // Set sharpness level
-    setSharpness(camera, sh);
-
-    // Set image quality
-    setImageQuality(camera, qlty);
-
     takePicture(camera, mode, fmt);
 
     uint32_t bytes_read = 0;
