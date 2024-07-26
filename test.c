@@ -69,8 +69,6 @@ void test_cam_params(ArducamCamera *camera,
     print(LL_PRINT, "\n");
 #endif // PRINT_IMG_DATA
 
-    arducamSpiUninit();
-
     print(LL_PRINT, "Image stored to flash address range: %#08x to %#08x\n", IMG_STORE_ADDR, tmp_pg);
     print(LL_PRINT, "----------------------------------------------\n");
 }
