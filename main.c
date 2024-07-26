@@ -16,8 +16,8 @@ void print_help_info(void) {
     print( LL_PRINT, "||                          TEST OPTIONS                        ||\n");
     print( LL_PRINT, "||==============================================================||\n");
     print( LL_PRINT, "||  Press 'h': To show test options                             ||\n");
-    print( LL_PRINT, "||  Press 'a': To run all tests                                 ||\n");
-    print( LL_PRINT, "||  Press 'm': To manually setup camera params and test         ||\n");
+    print( LL_PRINT, "||  Press 'DevKit's BUTTON 1': To take picture                  ||\n");
+    print( LL_PRINT, "||  Press 'DevKit's BUTTON 2': To setup camera params           ||\n");
     print( LL_PRINT, "||==============================================================||\n");
 
 }
@@ -40,6 +40,8 @@ void print_info(void) {
     print( LL_PRINT, "||    P0.25 - MISO                                              ||\n");
     print( LL_PRINT, "||    P0.26 - MOSI                                              ||\n");
     print( LL_PRINT, "||    P0.27 - SCK                                               ||\n");
+    print( LL_PRINT, "||    P0.11 - BUTTON 1                                          ||\n");
+    print( LL_PRINT, "||    P0.12 - BUTTON 2                                          ||\n");
     print( LL_PRINT, "||==============================================================||\n");
 
     print_help_info();
