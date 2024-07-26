@@ -1,5 +1,7 @@
 #include "Config.h"
 #include "ArducamCamera.h"
+
+#include <nrf_delay.h>
 #include "debug.h"
 
 void tui_configure_camera(ArducamCamera *camera) {
@@ -164,4 +166,26 @@ void tui_configure_camera(ArducamCamera *camera) {
     }key = 0;
     print(LL_PRINT, "Selected sharpness level: %d\n", sharpness);
     print(LL_PRINT, "\n");
+
+    globalCameraConfig.mode = mode;
+    globalCameraConfig.format = format;
+    globalCameraConfig.fx = fx;
+    globalCameraConfig.whitebalance = whitebalance;
+    globalCameraConfig.sharpness = sharpness;
+    globalCameraConfig.quality = quality;
+
+    // Enable autofocus
+    setAutoFocus(camera, 1);
+
+    setAutoWhiteBalance(camera, 1);
+    setAutoWhiteBalanceMode(camera, whitebalance);
+
+    // Disable color effects
+    setColorEffect(camera, fx);
+
+    // Set sharpness level
+    setSharpness(camera, sharpness);
+
+    // Set image quality
+    setImageQuality(camera, quality);
 }
