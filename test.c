@@ -1,6 +1,7 @@
 #include "test.h"
 #include "FlashSPI.h"
 #include "InternalFlash.h"
+#include "Timer.h"
 
 #define IMG_STORE_ADDR 0x40000
 
@@ -21,7 +22,12 @@ void test_cam_params(ArducamCamera *camera,
     // reset(&camera);
     memset((void*)img_buffer, 0, IMG_BUFF_SIZE * sizeof(img_buffer[0]));
 
-    takePicture(camera, mode, fmt);
+    print(LL_PRINT, "Running take picture command \n");
+
+    startTimer();
+    takePicture(camera, mode, fmt); //Take picture
+    uint32_t elapsed_time_ms = stopTimer();
+    SEGGER_RTT_printf(0, "Time taken for takePicture: %d milliseconds\n", elapsed_time_ms);
 
     uint32_t bytes_read = 0;
     uint32_t total_bytes_read = 0;
