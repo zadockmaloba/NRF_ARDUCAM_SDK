@@ -14,7 +14,7 @@ struct arducam_config_t {
     uint8_t quality;
 };
 
-static struct arducam_config_t globalCameraConfig = {
+static volatile struct arducam_config_t globalCameraConfig = {
     .mode = CAM_IMAGE_MODE_WQXGA2,
     .format = CAM_IMAGE_PIX_FMT_JPG,
     .whitebalance = CAM_WHITE_BALANCE_MODE_SUNNY,
