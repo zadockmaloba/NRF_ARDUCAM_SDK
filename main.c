@@ -72,7 +72,7 @@ void arducamConfigureCamera(void) {
 
 void main(void) {
     //clock_init();
-    //app_timer_init();
+    app_timer_init();
     timer_init();
 
     SEGGER_RTT_Init();
@@ -90,7 +90,7 @@ void main(void) {
 
     fstorage_init();
 
-#if 1
+#if 0
     test_cam_params(
         &camera,
         globalCameraConfig.mode,
@@ -109,6 +109,7 @@ void main(void) {
 
     while(1) {
         __WFI();
+        __WFE();
     };
 
 #if 0

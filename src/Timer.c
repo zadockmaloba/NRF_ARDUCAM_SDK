@@ -4,6 +4,8 @@
 #include <nrf_drv_rtc.h>
 #include <nrf_drv_clock.h>
 
+#define RTC_FREQUENCY 32.768
+
 static volatile uint32_t tick_counts = 0;
 static volatile uint32_t tick_start = 0;
 static volatile uint32_t millisOffset = 0;
@@ -42,7 +44,7 @@ static void rtc_config(void)
 
     //Initialize RTC instance
     nrf_drv_rtc_config_t config = NRF_DRV_RTC_DEFAULT_CONFIG;
-    //config.prescaler = 4095;
+    //config.prescaler = RTC_FREQ_TO_PRESCALER(64000000);
     err_code = nrf_drv_rtc_init(&rtc, &config, rtc_handler);
     APP_ERROR_CHECK(err_code);
 
@@ -55,6 +57,11 @@ static void rtc_config(void)
 
     //Power on RTC instance
     nrf_drv_rtc_enable(&rtc);
+}
+
+uint32_t rtc_ticks_to_ms(uint32_t ticks) {
+    // Calculate milliseconds based on RTC frequency
+    return (ticks * 1000) / RTC_FREQUENCY;
 }
 
 static void timer_handler(nrf_timer_event_t event_type, void* p_context) {
@@ -97,7 +104,7 @@ uint32_t stopTimer(void) {
 uint32_t millis(void){
   //return(app_timer_cnt_get() / 32.768);
   uint32_t currentTicks = tick_counts;//app_timer_cnt_get();
-  uint32_t currentMillis = currentTicks / 32.768;
+  uint32_t currentMillis = currentTicks / RTC_FREQUENCY;
   // Subtract the offset value to reset the millis counter
   currentMillis -= millisOffset;
   return currentMillis;

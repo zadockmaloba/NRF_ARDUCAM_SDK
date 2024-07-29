@@ -29,7 +29,7 @@ void test_cam_params(ArducamCamera *camera,
     //resetMillis();
     print(LL_PRINT, "takePicture start time %d microseconds\n", _time);
     _time = millis();
-    nrf_delay_ms(1);
+    //nrf_delay_ms(1);
     //resetMillis();
     takePicture(camera, mode, fmt); //Take picture
     uint32_t elapsed_time_ms = millis();
