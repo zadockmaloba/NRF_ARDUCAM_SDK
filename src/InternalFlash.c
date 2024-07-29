@@ -104,11 +104,15 @@ void read_flash(uint32_t address, uint8_t *data, uint32_t length) {
 }
 
 void erase_flash_page(uint32_t page_address) {
+    __disable_irq();
     ret_code_t rc = nrf_fstorage_erase(&fstorage, page_address, 1, NULL);
+    __enable_irq();
     APP_ERROR_CHECK(rc);
 }
 
 void erase_flash_pages(uint32_t page_address, uint32_t pages) {
+    __disable_irq();
     ret_code_t rc = nrf_fstorage_erase(&fstorage, page_address, pages, NULL);
+    __enable_irq();
     APP_ERROR_CHECK(rc);
 }
