@@ -13,4 +13,9 @@ uint32_t get_elapsed_time_ms(void);
 void startTimer(void);
 uint32_t stopTimer(void);
 
+uint32_t millis(void);
+
+// Function to reset the millis counter
+void resetMillis(void);
+
 #endif //__ARDUCAM_TIMER_H
