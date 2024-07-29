@@ -24,10 +24,16 @@ void test_cam_params(ArducamCamera *camera,
 
     print(LL_PRINT, "Running take picture command \n");
 
-    startTimer();
+    //startTimer();
+    uint32_t _time = millis();
+    //resetMillis();
+    print(LL_PRINT, "takePicture start time %d microseconds\n", _time);
+    _time = millis();
+    nrf_delay_ms(1);
+    //resetMillis();
     takePicture(camera, mode, fmt); //Take picture
-    uint32_t elapsed_time_ms = stopTimer();
-    SEGGER_RTT_printf(0, "Time taken for takePicture: %d milliseconds\n", elapsed_time_ms);
+    uint32_t elapsed_time_ms = millis();
+    SEGGER_RTT_printf(0, "Time taken for takePicture: %d microseconds\n", elapsed_time_ms - _time);
 
     uint32_t bytes_read = 0;
     uint32_t total_bytes_read = 0;
@@ -38,12 +44,13 @@ void test_cam_params(ArducamCamera *camera,
     uint32_t tmp_pg = 0;
 
     SEGGER_RTT_printf(0, "Erasing flash...");
-    for (uint32_t page = 0; page < num_pages; page++) {
-         erase_flash_page(IMG_STORE_ADDR + page * FLASH_PAGE_SIZE);
-         tmp_pg = IMG_STORE_ADDR + page * FLASH_PAGE_SIZE;
-         //if (((camera.receivedLength - 1) % 12) == 0) SEGGER_RTT_printf(0, ".");
-    }
-    //erase_flash_pages(IMG_STORE_ADDR, num_pages);
+    //for (uint32_t page = 0; page < num_pages; page++) {
+    //     erase_flash_page(IMG_STORE_ADDR + page * FLASH_PAGE_SIZE);
+    //     tmp_pg = IMG_STORE_ADDR + page * FLASH_PAGE_SIZE;
+    //     //if (((camera.receivedLength - 1) % 12) == 0) SEGGER_RTT_printf(0, ".");
+    //}
+    erase_flash_pages(IMG_STORE_ADDR, num_pages);
+    tmp_pg = IMG_STORE_ADDR + (num_pages * FLASH_PAGE_SIZE);
     SEGGER_RTT_printf(0, "\nFlash erased from %#08x to %#08x\n", IMG_STORE_ADDR, tmp_pg);
 
     // Read image data in chunks and write to flash
