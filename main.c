@@ -1,4 +1,7 @@
 #include <nrf.h>
+#include <nrf_drv_clock.h>
+
+#include <app_timer.h>
 
 #include "ArducamCamera.h"
 #include "ArducamSpi.h"
@@ -10,7 +13,7 @@
 #include "GpioHandler.h"
 #include "Timer.h"
 
-ArducamCamera camera;
+static ArducamCamera camera;
 
 void print_help_info(void) {
     print( LL_PRINT, "  ==============================================================  \n");
@@ -66,7 +69,12 @@ void arducamConfigureCamera(void) {
     tui_configure_camera(&camera);
 }
 
+
 void main(void) {
+    //clock_init();
+    //app_timer_init();
+    timer_init();
+
     SEGGER_RTT_Init();
     nrf_delay_ms(20);
 
@@ -75,21 +83,32 @@ void main(void) {
     // Initialize camera instance and start SPI
     camera = createArducamCamera(SPIM_SS_PIN);
     begin(&camera);
+    reset(&camera);
 
     nrf_delay_us(20);
     print_info();
 
     fstorage_init();
 
+#if 1
+    test_cam_params(
+        &camera,
+        globalCameraConfig.mode,
+        globalCameraConfig.format,
+        globalCameraConfig.whitebalance,
+        globalCameraConfig.fx,
+        globalCameraConfig.quality,
+        globalCameraConfig.sharpness
+    );
+#endif
+
     set_button1_callback(arducamTakePicture);
     set_button2_callback(arducamConfigureCamera);
 
     gpio_handler_init();
 
-    timer_init();
-
     while(1) {
-        __WFE();
+        __WFI();
     };
 
 #if 0
